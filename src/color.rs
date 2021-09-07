@@ -30,80 +30,80 @@ impl RGB {
     RGB::create(0u8, 0u8, 0u8)
   }
 
-  const PURE_RED: RGB = RGB {
+  pub const PURE_RED: RGB = RGB {
     red: u8::MAX,
     green: 0,
     blue: 0,
   };
 
-  const PURE_GREEN: RGB = RGB {
+  pub const PURE_GREEN: RGB = RGB {
     red: 0,
     green: u8::MAX,
     blue: 0,
   };
 
-  const PURE_BLUE: RGB = RGB {
+  pub const PURE_BLUE: RGB = RGB {
     red: 0,
     green: 0,
     blue: u8::MAX,
   };
 
-  const RED: RGB = RGB {
+  pub const RED: RGB = RGB {
     red: u8::MAX - (u8::MAX / 4),
     green: 0,
     blue: 0,
   };
 
-  const GREEN: RGB = RGB {
+  pub const GREEN: RGB = RGB {
     red: 0,
     green: u8::MAX - (u8::MAX / 4),
     blue: 0,
   };
 
-  const BLUE: RGB = RGB {
+  pub const BLUE: RGB = RGB {
     red: 0,
     green: 0,
     blue: u8::MAX - (u8::MAX / 4),
   };
 
-  const CYAN: RGB = RGB {
+  pub const CYAN: RGB = RGB {
     red: 0,
     green: u8::MAX,
     blue: u8::MAX,
   };
 
-  const MAGENTA: RGB = RGB {
+  pub const MAGENTA: RGB = RGB {
     red: u8::MAX,
     green: 0,
     blue: u8::MAX,
   };
 
-  const YELLOW: RGB = RGB {
+  pub const YELLOW: RGB = RGB {
     red: u8::MAX,
     green: u8::MAX,
     blue: 0,
   };
 
-  const PINK: RGB = RGB {
+  pub const PINK: RGB = RGB {
     red: u8::MAX,
     green: 0,
     blue: 0xAB,
   };
 
   // purple #8024AB
-  const PURPLE: RGB = RGB {
+  pub const PURPLE: RGB = RGB {
     red: 0x80,
     green: 0x24,
     blue: 0xAB,
   };
 
-  const WHITE: RGB = RGB {
+  pub const WHITE: RGB = RGB {
     red: u8::MAX,
     green: u8::MAX,
     blue: u8::MAX,
   };
 
-  const BLACK: RGB = RGB {
+  pub const BLACK: RGB = RGB {
     red: 0,
     green: 0,
     blue: 0,
