@@ -53,11 +53,9 @@ pub fn make_checker_pattern(
   background_color: color::RGB,
 ) {
   for y in 0..height {
-    let draw_at_even_index = y % 2 == 0;
+    let indice_to_draw_at = (y % 2 == 0) as usize;
     for x in 0..width {
-      if draw_at_even_index && x % 2 == 0 {
-        buffer_output[(width * y) + x] = forground_color;
-      } else if !draw_at_even_index && x % 2 == 1 {
+      if x % 2 == indice_to_draw_at {
         buffer_output[(width * y) + x] = forground_color;
       } else {
         buffer_output[(width * y) + x] = background_color;
