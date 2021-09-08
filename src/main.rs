@@ -1,5 +1,6 @@
 mod color;
 mod pixel_buffer;
+use pixel_buffer::PixelBuffer;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 
@@ -10,17 +11,25 @@ const DEFAULT_HEIGHT: usize = 16;
 const DEFAULT_SIZE: usize = DEFAULT_WIDTH * DEFAULT_HEIGHT;
 
 fn main() {
-  let mut buffer: [color::RGB; DEFAULT_SIZE] = [color::RGB::WHITE; DEFAULT_SIZE];
+  let mut new_buffer =
+    pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), 128, 128, None);
 
+  let width = new_buffer.get_width() as usize;
+  let height = new_buffer.get_height() as usize;
+  let mut mut_slice = new_buffer.get_buffer_as_slice_mut();
   make_checker_pattern(
-    &mut buffer,
-    DEFAULT_WIDTH,
-    DEFAULT_HEIGHT,
+    &mut mut_slice,
+    width,
+    height,
     color::RGB::BLUE,
     color::RGB::BLACK,
   );
   println!("saving image");
-  let result = save_as_ppm(DEFAULT_WIDTH, DEFAULT_HEIGHT, &buffer);
+  let result = save_as_ppm(
+    new_buffer.get_width() as usize,
+    new_buffer.get_height() as usize,
+    new_buffer.get_buffer_as_slice(),
+  );
   if result.is_err() {
     panic!("An error occurred when saving to a file");
   }
