@@ -60,12 +60,12 @@ pub fn save_as_ppm(
   height: usize,
   color: &[color::RGB],
   path: String,
-  print_status: bool,
+  be_silent: bool,
 ) -> std::io::Result<()> {
   let mut file = File::create(&path)?;
   write!(file, "P6 {} {} 255\n", width, height)?;
 
-  if print_status {
+  if be_silent {
     println!("saving file to path {}", path);
   }
 
