@@ -147,3 +147,23 @@ impl RGBA {
     }
   }
 }
+
+impl Add for RGBA {
+  type Output = RGBA;
+  fn add(self, other: Self) -> Self::Output {
+    RGBA {
+      rgb: self.rgb.add(other.rgb),
+      alpha: self.alpha + other.alpha,
+    }
+  }
+}
+
+impl Sub for RGBA {
+  type Output = RGBA;
+  fn sub(self, other: Self) -> Self::Output {
+    RGBA {
+      rgb: self.rgb.sub(other.rgb),
+      alpha: self.alpha - other.alpha,
+    }
+  }
+}
