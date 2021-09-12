@@ -1,4 +1,6 @@
-use crate::util::util_traits::{BasicArithmetic, SquareRoot, ZeroValue};
+use crate::util::util_traits::{
+  BasicArithmetic, BasicTrigonometryFunctions, SquareRoot, ZeroValue,
+};
 use std::ops::*;
 
 /// Represents a 2d mathematical vector.
@@ -13,7 +15,7 @@ pub struct Vector2<T> {
 ///
 impl<T> Vector2<T>
 where
-  T: BasicArithmetic<T> + SquareRoot<T, T> + ZeroValue<T>,
+  T: BasicArithmetic<T> + SquareRoot<T, T> + ZeroValue<T> + BasicTrigonometryFunctions<T>,
 {
   pub fn create(_x: T, _y: T) -> Vector2<T> {
     Vector2::<T> { x: _x, y: _y }
@@ -33,6 +35,32 @@ where
 
   pub fn dot_product(&self, other: Self) -> T {
     (self.x * other.x) + (self.y * other.y)
+  }
+
+  // multiplies each component by the scalar
+  pub fn mul_scalar(&self, scalar: T) -> Vector2<T> {
+    Vector2::<T> {
+      x: self.x * scalar,
+      y: self.y * scalar,
+    }
+  }
+
+  pub fn normalize(&self) -> Vector2<T> {
+    let magnitude = self.mag();
+    Vector2::<T> {
+      x: self.x / magnitude,
+      y: self.y / magnitude,
+    }
+  }
+
+  pub fn rotate(&self, rotation_amount: T) -> Vector2<T> {
+    let new_x =
+      (self.x.do_cos_self_type() * rotation_amount) - (self.y.do_sin_self_type() * rotation_amount);
+
+    let new_y =
+      (self.x.do_sin_self_type() * rotation_amount) + (self.y.do_cos_self_type() * rotation_amount);
+
+    Vector2::<T> { x: new_x, y: new_y }
   }
 }
 
