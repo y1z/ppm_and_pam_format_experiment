@@ -55,10 +55,10 @@ where
 
   pub fn rotate(&self, rotation_amount: T) -> Vector2<T> {
     let new_x =
-      (self.x.do_cos_self_type() * rotation_amount) - (self.y.do_sin_self_type() * rotation_amount);
+      (self.x * rotation_amount.do_cos_self_type()) - (self.y * rotation_amount.do_sin_self_type());
 
     let new_y =
-      (self.x.do_sin_self_type() * rotation_amount) + (self.y.do_cos_self_type() * rotation_amount);
+      (self.x * rotation_amount.do_sin_self_type()) + (self.y * rotation_amount.do_cos_self_type());
 
     Vector2::<T> { x: new_x, y: new_y }
   }
