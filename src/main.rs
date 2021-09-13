@@ -17,7 +17,7 @@ const DEFAULT_PATH_PPM: &'static str = "default_output.ppm";
 const DEFAULT_PATH_PAM: &'static str = "default_output.pam";
 
 fn main() {
-  let mut buffer = PixelBufferRGB::create(Some(color::RGB::WHITE), 12, 12, None);
+  let mut buffer = PixelBufferRGB::create(Some(color::RGB::WHITE), 128, 128, None);
 
   let buffer_width = buffer.get_width() as usize;
   let buffer_height = buffer.get_height() as usize;
