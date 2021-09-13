@@ -1,4 +1,5 @@
 use crate::color;
+use crate::pixel_buffer;
 use crate::vector2::*;
 use crate::yy_random_func;
 pub fn make_checker_pattern(
@@ -45,7 +46,7 @@ pub fn make_random_rainbow_pattern(buffer_output: &mut [color::RGB], width: usiz
   }
 }
 
-// TODO : Make the triangle
+// TODO : Make the triangle less scuffed
 pub fn make_triangle_pattern(
   buffer_output: &mut [color::RGB],
   width: usize,
@@ -84,4 +85,94 @@ pub fn make_triangle_pattern(
       }
     }
   }
+}
+
+pub fn make_circle_pattern(
+  buffer_output: &mut [color::RGB],
+  width: usize,
+  height: usize,
+  circle_color: color::RGB,
+  optional_radius: Option<f32>,
+) {
+  let circle_center = Vector2f::create((width / 2) as f32, (height / 2) as f32);
+  let radius = {
+    let result: f32;
+    if optional_radius.is_some() {
+      result = optional_radius.unwrap();
+    } else {
+      let left_most_point = Vector2f::create(width as f32, (height / 2) as f32);
+      result = (circle_center - left_most_point).mag();
+    }
+    result
+  };
+
+  for y in 0..height {
+    for x in 0..width {
+      let current_point = Vector2f::create(x as f32, y as f32);
+      let distance = (current_point - circle_center).mag();
+      if distance < radius {
+        buffer_output[(y * width) + x] = circle_color;
+      }
+    }
+  }
+}
+
+pub fn make_one_of_pattern(
+  width: u32,
+  height: u32,
+  forground_color: Option<color::RGB>,
+  background_color: Option<color::RGB>,
+) -> [pixel_buffer::PixelBufferRGB; 4] {
+  let mut first_pattern =
+    pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
+
+  let mut second_pattern =
+    pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
+
+  let mut third_pattern =
+    pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
+
+  let mut fourth_pattern =
+    pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
+
+  let mut used_forground_color: color::RGB = color::RGB::BLUE;
+  if forground_color.is_some() {
+    used_forground_color = forground_color.unwrap();
+  }
+
+  let mut used_background_color: color::RGB = color::RGB::RED;
+  if background_color.is_some() {
+    used_background_color = background_color.unwrap();
+  }
+
+  make_checker_pattern(
+    first_pattern.get_buffer_as_slice_mut(),
+    width as usize,
+    height as usize,
+    used_forground_color,
+    used_background_color,
+  );
+
+  make_random_rainbow_pattern(
+    second_pattern.get_buffer_as_slice_mut(),
+    width as usize,
+    height as usize,
+  );
+
+  make_triangle_pattern(
+    third_pattern.get_buffer_as_slice_mut(),
+    width as usize,
+    height as usize,
+    used_forground_color,
+  );
+
+  make_circle_pattern(
+    fourth_pattern.get_buffer_as_slice_mut(),
+    width as usize,
+    height as usize,
+    used_forground_color,
+    None,
+  );
+
+  [first_pattern, second_pattern, third_pattern, fourth_pattern]
 }
