@@ -53,6 +53,17 @@ pub trait ZeroValue<T> {
   fn get_zero_value() -> T;
 }
 
+pub trait BasicTrigonometryFunctions<T> {
+  fn do_sinf32(self) -> f32;
+  fn do_cosf32(self) -> f32;
+
+  fn do_sinf64(self) -> f64;
+  fn do_cosf64(self) -> f64;
+
+  fn do_sin_self_type(self) -> T;
+  fn do_cos_self_type(self) -> T;
+}
+
 ///
 /// Implementation macros
 ///
@@ -91,6 +102,42 @@ macro_rules! IMPL_BASIC_ARITHMETIC{
   )*)
 }
 IMPL_BASIC_ARITHMETIC! {i8 i16 i32 i64 i128 isize u8 u16 u32 u64 u128 usize f32 f64 }
+
+macro_rules! IMPL_BASIC_TRIGONOMETRY_FUNCTIONS{
+  ($($tt:ty)*) => ($(
+    impl BasicTrigonometryFunctions<$tt> for $tt {
+      fn do_sinf32(self) -> f32 {
+        let res = self;
+        (res as f32).sin()
+      }
+
+      fn do_cosf32(self) -> f32 {
+        let res = self;
+        (res as f32).cos()
+      }
+
+      fn do_sinf64(self) -> f64 {
+        let res = self;
+        (res as f64).sin()
+      }
+
+      fn do_cosf64(self) -> f64 {
+        let res = self;
+        (res as f64).cos()
+      }
+
+      fn do_sin_self_type(self) -> $tt{
+        (self.do_sinf64()) as $tt
+      }
+
+      fn do_cos_self_type(self) -> $tt{
+        (self.do_cosf64()) as $tt
+      }
+    }
+  )*);
+}
+
+IMPL_BASIC_TRIGONOMETRY_FUNCTIONS! {i8 i16 i32 i64 i128 isize u8 u16 u32 u64 u128 usize f32 f64 }
 
 ///
 /// Implementation of traits for primitive types
