@@ -17,6 +17,13 @@ pub struct PamFormatDescriptor {
   pub max_val: u8,
 }
 
+impl TupleType {
+  pub fn has_alpha(&self) -> bool {
+    let raw_value = *self as u32;
+    raw_value & (1 << 16) > 0
+  }
+}
+
 impl fmt::Display for TupleType {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let raw_value: u32 = (*self) as u32;
