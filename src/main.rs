@@ -45,13 +45,16 @@ fn main() {
   for pat in patterns.iter() {
     let width = pat.0.get_width();
     let height = pat.0.get_height();
-    save_as_ppm_rgb(
+    let result = save_as_ppm_rgb(
       width,
       height,
       pat.0.get_buffer_as_slice(),
       pat.1.clone(),
       false,
     );
+    if result.is_err() {
+      print!("error : [ {} ]", result.unwrap_err());
+    }
   }
 }
 
