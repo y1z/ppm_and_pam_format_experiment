@@ -118,21 +118,21 @@ pub fn make_circle_pattern(
 }
 
 pub fn make_one_of_pattern(
-  width: u32,
-  height: u32,
+  width: usize,
+  height: usize,
   forground_color: Option<color::RGB>,
   background_color: Option<color::RGB>,
-) -> [pixel_buffer::PixelBufferRGB; 4] {
-  let mut first_pattern =
+) -> [(pixel_buffer::PixelBufferRGB, String); 4] {
+  let mut checker_pattern =
     pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
 
-  let mut second_pattern =
+  let mut random_rainbow_pattern =
     pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
 
-  let mut third_pattern =
+  let mut triangle_pattern =
     pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
 
-  let mut fourth_pattern =
+  let mut circle_pattern =
     pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
 
   let mut used_forground_color: color::RGB = color::RGB::BLUE;
@@ -146,7 +146,7 @@ pub fn make_one_of_pattern(
   }
 
   make_checker_pattern(
-    first_pattern.get_buffer_as_slice_mut(),
+    checker_pattern.get_buffer_as_slice_mut(),
     width as usize,
     height as usize,
     used_forground_color,
@@ -154,25 +154,30 @@ pub fn make_one_of_pattern(
   );
 
   make_random_rainbow_pattern(
-    second_pattern.get_buffer_as_slice_mut(),
+    random_rainbow_pattern.get_buffer_as_slice_mut(),
     width as usize,
     height as usize,
   );
 
   make_triangle_pattern(
-    third_pattern.get_buffer_as_slice_mut(),
+    triangle_pattern.get_buffer_as_slice_mut(),
     width as usize,
     height as usize,
     used_forground_color,
   );
 
   make_circle_pattern(
-    fourth_pattern.get_buffer_as_slice_mut(),
+    circle_pattern.get_buffer_as_slice_mut(),
     width as usize,
     height as usize,
     used_forground_color,
     None,
   );
 
-  [first_pattern, second_pattern, third_pattern, fourth_pattern]
+  [
+    (checker_pattern, String::from("checker_pattern.ppm")),
+    (random_rainbow_pattern, String::from("random_pattern.ppm")),
+    (triangle_pattern, String::from("triangle_pattern.ppm")),
+    (circle_pattern, String::from("circle_pattern.ppm")),
+  ]
 }

@@ -2,9 +2,9 @@ use crate::color::RGB;
 use std::option::Option;
 pub struct PixelBuffer<T> {
   buffer: Vec<T>,
-  width: u32,
-  height: u32,
-  current_row_amount: u32,
+  width: usize,
+  height: usize,
+  current_row_amount: usize,
   // TODO : implement the ratio variable
   _ratio: [u32; 2],
 }
@@ -18,8 +18,8 @@ where
    */
   pub fn create(
     default_value: Option<T>,
-    width_: u32,
-    height_: u32,
+    width_: usize,
+    height_: usize,
     _ratio_: Option<[u32; 2]>,
   ) -> PixelBuffer<T> {
     assert_ne!(width_, 0);
@@ -55,28 +55,28 @@ where
     }
   }
 
-  fn calculate_index(&self, x_pos: u32, y_pos: u32) -> usize {
+  fn calculate_index(&self, x_pos: usize, y_pos: usize) -> usize {
     assert!(y_pos < self.height, "trying to get out of bounds");
-    ((self.width * y_pos) + x_pos) as usize
+    ((self.width * y_pos) + x_pos)
   }
 
   pub fn add_element(&mut self, element: T) {
-    self.current_row_amount += 1u32;
+    self.current_row_amount += 1_usize;
     self.buffer.push(element);
     self.update();
   }
 
-  pub fn get_element_mut(&mut self, x_pos: u32, y_pos: u32) -> &mut T {
+  pub fn get_element_mut(&mut self, x_pos: usize, y_pos: usize) -> &mut T {
     let index = self.calculate_index(x_pos, y_pos);
     &mut self.buffer[index]
   }
 
-  pub fn get_element(&self, x_pos: u32, y_pos: u32) -> T {
+  pub fn get_element(&self, x_pos: usize, y_pos: usize) -> T {
     let index = self.calculate_index(x_pos, y_pos);
     self.buffer[index]
   }
 
-  pub fn set_element(&mut self, x_pos: u32, y_pos: u32, value: T) {
+  pub fn set_element(&mut self, x_pos: usize, y_pos: usize, value: T) {
     let index = self.calculate_index(x_pos, y_pos);
     self.buffer[index] = value;
   }
@@ -89,11 +89,11 @@ where
     self.buffer.as_mut_slice()
   }
 
-  pub fn get_width(&self) -> u32 {
+  pub fn get_width(&self) -> usize {
     self.width
   }
 
-  pub fn get_height(&self) -> u32 {
+  pub fn get_height(&self) -> usize {
     self.height
   }
 }

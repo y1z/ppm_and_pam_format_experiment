@@ -1,5 +1,6 @@
 mod color;
 mod make_patterns;
+mod pam_format_descriptor;
 mod pixel_buffer;
 mod vector2;
 mod yy_random_func;
@@ -8,6 +9,7 @@ pub mod util {
 }
 
 use make_patterns::make_checker_pattern;
+use pam_format_descriptor::{PamFormatDescriptor, TupleType};
 use pixel_buffer::PixelBufferRGB;
 use std::fs::File;
 use std::io::{BufWriter, Write};
@@ -17,34 +19,43 @@ const DEFAULT_PATH_PPM: &'static str = "default_output.ppm";
 const DEFAULT_PATH_PAM: &'static str = "default_output.pam";
 
 fn main() {
-  let mut buffer = PixelBufferRGB::create(Some(color::RGB::WHITE), 128, 128, None);
-  let buffer_width = buffer.get_width() as usize;
-  let buffer_height = buffer.get_height() as usize;
+  let patterns =
+    make_patterns::make_one_of_pattern(128, 128, Some(color::RGB::PURPLE), Some(color::RGB::GREEN));
 
-  {
-    let mut mut_slice = buffer.get_buffer_as_slice_mut();
-    make_patterns::make_circle_pattern(
-      mut_slice,
-      buffer_width,
-      buffer_height,
-      color::RGB::RED,
-      None,
-    );
+  let mut index = 0;
+  for pat in patterns.iter() {
+    let buff_width = pat.0.get_width();
+    let buff_height = pat.0.get_height();
+    let desc = PamFormatDescriptor {
+      width: buff_width,
+      height: buff_height,
+      tuple_type: TupleType::RGB,
+      depth: 3,
+      max_val: 255,
+    };
+
+    let file_name = format!("filename{}.pam", index);
+    let result = save_as_pam_rgb(pat.0.get_buffer_as_slice(), desc, file_name);
+    index = index + 1;
+    if result.is_err() {
+      print!("error : [ {} ]", result.unwrap_err());
+    }
   }
-  let circle_pattern_result = save_as_ppm(
-    buffer_width,
-    buffer_height,
-    buffer.get_buffer_as_slice(),
-    String::from("circle_pattern.ppm"),
-    false,
-  );
 
-  if circle_pattern_result.is_err() {
-    panic!("{}", circle_pattern_result.unwrap_err());
+  for pat in patterns.iter() {
+    let width = pat.0.get_width();
+    let height = pat.0.get_height();
+    save_as_ppm_rgb(
+      width,
+      height,
+      pat.0.get_buffer_as_slice(),
+      pat.1.clone(),
+      false,
+    );
   }
 }
 
-pub fn save_as_ppm(
+pub fn save_as_ppm_rgb(
   width: usize,
   height: usize,
   color: &[color::RGB],
@@ -70,5 +81,64 @@ pub fn save_as_ppm(
       writer.write(&final_extract_color)?;
     }
   }
+  Ok(())
+}
+
+/**
+*     P7
+      WIDTH 227
+      HEIGHT 149
+      DEPTH 3
+      MAXVAL 255
+      TUPLTYPE RGB
+      ENDHDR
+*/
+pub fn save_as_pam_rgb(
+  color_buffer: &[color::RGB],
+  descriptor: PamFormatDescriptor,
+  name_of_file: String,
+) -> std::io::Result<()> {
+  let width = descriptor.width;
+  let height = descriptor.height;
+  let type_type = descriptor.tuple_type;
+  let depth = match type_type.has_alpha() {
+    true => 1 + descriptor.depth,
+    false => descriptor.depth,
+  };
+
+  let type_string = type_type.to_string();
+  println!(
+    "saving file of type {}\nName of file is \"{}\"\n",
+    type_string, name_of_file
+  );
+  let mut file = File::create(&name_of_file)?;
+  write!(
+    file,
+    "P7 WIDTH {} HEIGHT {} DEPTH {} MAXVAL {} TYPLTYPE {} ENDHDR\n",
+    width, height, depth, descriptor.max_val, type_string
+  )?;
+
+  const TEMP_ALPHA_VALUE: [u8; 1] = [255];
+
+  let mut writer = BufWriter::new(file);
+  for z in 0..depth {
+    for y in 0..height {
+      for x in 0..width {
+        if z == 0 {
+          let temp: [u8; 1] = [color_buffer[(width * y) + x].red];
+          writer.write(&temp)?;
+        } else if z == 1 {
+          let temp: [u8; 1] = [color_buffer[(width * y) + x].green];
+          writer.write(&temp)?;
+        } else if z == 2 {
+          let temp: [u8; 1] = [color_buffer[(width * y) + x].blue];
+          writer.write(&temp)?;
+        } else {
+          writer.write(&TEMP_ALPHA_VALUE)?;
+        }
+      }
+    }
+  }
+
   Ok(())
 }
