@@ -119,11 +119,19 @@ pub fn save_as_pam_rgb(
     type_string, name_of_file
   );
   let mut file = File::create(&name_of_file)?;
-  write!(
-    file,
-    "P7\n WIDTH {} \nHEIGHT {}\n DEPTH {}\n MAXVAL {}\n TYPLTYPE {}\n ENDHDR\n",
-    width, height, depth, descriptor.max_val, type_string
-  )?;
+
+  writeln!(file, "P7")?;
+  writeln!(file, "WIDTH {}", width)?;
+  writeln!(file, "HEIGHT {}", height)?;
+  writeln!(file, "DEPTH {}", depth)?;
+  writeln!(file, "MAXVAL {}", descriptor.max_val)?;
+  writeln!(file, "TYPLTYPE  {}", descriptor.tuple_type.to_string())?;
+  writeln!(file, "ENDHDR {}", descriptor.tuple_type.to_string())?;
+  // write!(
+  //   file,
+  //   "P7\n WIDTH {} \nHEIGHT {}\n DEPTH {}\n MAXVAL {}\n TYPLTYPE {}\n ENDHDR\n",
+  //   width, height, depth, descriptor.max_val, type_string
+  // )?;
 
   const TEMP_ALPHA_VALUE: [u8; 1] = [255];
 
