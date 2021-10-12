@@ -19,8 +19,12 @@ const DEFAULT_PATH_PPM: &'static str = "default_output.ppm";
 const DEFAULT_PATH_PAM: &'static str = "default_output.pam";
 
 fn main() {
-  let patterns =
-    make_patterns::make_one_of_pattern(128, 128, Some(color::RGB::PURPLE), Some(color::RGB::GREEN));
+  let patterns = make_patterns::make_one_of_each_pattern(
+    128,
+    128,
+    Some(color::RGB::PURPLE),
+    Some(color::RGB::GREEN),
+  );
 
   let mut index = 0;
   for pat in patterns.iter() {

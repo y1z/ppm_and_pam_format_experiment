@@ -117,7 +117,7 @@ pub fn make_circle_pattern(
   }
 }
 
-pub fn make_one_of_pattern(
+pub fn make_one_of_each_pattern(
   width: usize,
   height: usize,
   forground_color: Option<color::RGB>,
