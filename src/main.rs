@@ -117,7 +117,7 @@ pub fn save_as_pam_rgb(
   let mut file = File::create(&name_of_file)?;
   write!(
     file,
-    "P7 WIDTH {} HEIGHT {} DEPTH {} MAXVAL {} TYPLTYPE {} ENDHDR\n",
+    "P7\n WIDTH {} \nHEIGHT {}\n DEPTH {}\n MAXVAL {}\n TYPLTYPE {}\n ENDHDR\n",
     width, height, depth, descriptor.max_val, type_string
   )?;
 
