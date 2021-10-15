@@ -125,7 +125,7 @@ pub fn save_as_pam_rgb(
   writeln!(file, "HEIGHT {}", height)?;
   writeln!(file, "DEPTH {}", depth)?;
   writeln!(file, "MAXVAL {}", descriptor.max_val)?;
-  writeln!(file, "TYPLTYPE  {}", descriptor.tuple_type.to_string())?;
+  writeln!(file, "TUPLTYPE  {}", descriptor.tuple_type.to_string())?;
   writeln!(file, "ENDHDR")?;
   // write!(
   //   file,
