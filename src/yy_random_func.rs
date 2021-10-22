@@ -1,5 +1,3 @@
-use std::num::Wrapping;
-use std::ops::{BitOr, Shl, Shr};
 // Implementation of middle square weyl sequence
 // Based on this video : https://youtu.be/VHJUlRiRDCY?t=2045
 // Rules for this constants

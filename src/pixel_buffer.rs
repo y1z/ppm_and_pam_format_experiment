@@ -57,7 +57,7 @@ where
 
   fn calculate_index(&self, x_pos: usize, y_pos: usize) -> usize {
     assert!(y_pos < self.height, "trying to get out of bounds");
-    ((self.width * y_pos) + x_pos)
+    (self.width * y_pos) + x_pos
   }
 
   pub fn add_element(&mut self, element: T) {

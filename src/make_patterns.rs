@@ -135,15 +135,15 @@ pub fn make_one_of_each_pattern(
   let mut circle_pattern =
     pixel_buffer::PixelBufferRGB::create(Some(color::RGB::WHITE), width, height, None);
 
-  let mut used_forground_color: color::RGB = color::RGB::BLUE;
-  if forground_color.is_some() {
-    used_forground_color = forground_color.unwrap();
-  }
+  let used_forground_color = match forground_color {
+    Some(x) => x,
+    None => color::RGB::BLUE,
+  };
 
-  let mut used_background_color: color::RGB = color::RGB::RED;
-  if background_color.is_some() {
-    used_background_color = background_color.unwrap();
-  }
+  let used_background_color = match background_color {
+    Some(x) => x,
+    None => color::RGB::create(20, 128, 20),
+  };
 
   make_checker_pattern(
     checker_pattern.get_buffer_as_slice_mut(),

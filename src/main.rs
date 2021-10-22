@@ -8,15 +8,13 @@ pub mod util {
   pub mod util_traits;
 }
 
-use make_patterns::make_checker_pattern;
 use pam_format_descriptor::{PamFormatDescriptor, TupleType};
-use pixel_buffer::PixelBufferRGB;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::string::*;
 
-const DEFAULT_PATH_PPM: &'static str = "default_output.ppm";
-const DEFAULT_PATH_PAM: &'static str = "default_output.pam";
+//const DEFAULT_PATH_PPM: &'static str = "default_output.ppm";
+//const DEFAULT_PATH_PAM: &'static str = "default_output.pam";
 
 fn main() {
   let patterns = make_patterns::make_one_of_each_pattern(
@@ -127,11 +125,6 @@ pub fn save_as_pam_rgb(
   writeln!(file, "MAXVAL {}", descriptor.max_val)?;
   writeln!(file, "TUPLTYPE  {}", descriptor.tuple_type.to_string())?;
   writeln!(file, "ENDHDR")?;
-  // write!(
-  //   file,
-  //   "P7\n WIDTH {} \nHEIGHT {}\n DEPTH {}\n MAXVAL {}\n TYPLTYPE {}\n ENDHDR\n",
-  //   width, height, depth, descriptor.max_val, type_string
-  // )?;
 
   const TEMP_ALPHA_VALUE: [u8; 1] = [255];
 
