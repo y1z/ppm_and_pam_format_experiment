@@ -28,13 +28,7 @@ fn main() {
   for pat in patterns.iter() {
     let buff_width = pat.0.get_width();
     let buff_height = pat.0.get_height();
-    let desc = PamFormatDescriptor {
-      width: buff_width,
-      height: buff_height,
-      tuple_type: TupleType::RGB,
-      depth: 3,
-      max_val: 255,
-    };
+    let desc = PamFormatDescriptor::make_rgb_descriptor(buff_width, buff_height, None);
 
     let file_name = format!("filename{}.pam", index);
     let result = save_as_pam_rgb(pat.0.get_buffer_as_slice(), desc, file_name);
