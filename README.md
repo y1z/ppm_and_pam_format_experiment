@@ -1,4 +1,4 @@
-# PPA and PAM format experiments
+# PPM and PAM format experiments
  - This is just me having fun with the [.PPM format][ppm_format_wiki] and [.PAM format][pam_format_wiki]
 
  - here is the [PAM specification][pam_format_spec] used as reference.
