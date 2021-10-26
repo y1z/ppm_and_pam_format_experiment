@@ -124,6 +124,72 @@ impl RGBA {
       alpha: u8::MAX,
     }
   }
+
+  pub const PURE_RED: RGBA = RGBA {
+    rgb: RGB::PURE_RED,
+    alpha: u8::MAX,
+  };
+
+  pub const PURE_GREEN: RGBA = RGBA {
+    rgb: RGB::PURE_GREEN,
+    alpha: u8::MAX,
+  };
+
+  pub const PURE_BLUE: RGBA = RGBA {
+    rgb: RGB::PURE_BLUE,
+    alpha: u8::MAX,
+  };
+
+  pub const RED: RGBA = RGBA {
+    rgb: RGB::RED,
+    alpha: u8::MAX,
+  };
+
+  pub const GREEN: RGBA = RGBA {
+    rgb: RGB::GREEN,
+    alpha: u8::MAX,
+  };
+
+  pub const BLUE: RGBA = RGBA {
+    rgb: RGB::BLUE,
+    alpha: u8::MAX,
+  };
+
+  pub const CYAN: RGBA = RGBA {
+    rgb: RGB::CYAN,
+    alpha: u8::MAX,
+  };
+
+  pub const MAGENTA: RGBA = RGBA {
+    rgb: RGB::MAGENTA,
+    alpha: u8::MAX,
+  };
+
+  pub const YELLOW: RGBA = RGBA {
+    rgb: RGB::YELLOW,
+    alpha: u8::MAX,
+  };
+
+  pub const PINK: RGBA = RGBA {
+    rgb: RGB::PINK,
+    alpha: u8::MAX,
+  };
+
+  // purple #8024AB
+  pub const PURPLE: RGBA = RGBA {
+    rgb: RGB::PURPLE,
+    alpha: u8::MAX,
+  };
+
+  pub const WHITE: RGBA = RGBA {
+    rgb: RGB::WHITE,
+    alpha: u8::MAX,
+  };
+
+  pub const BLACK: RGBA = RGBA {
+    rgb: RGB::BLACK,
+    alpha: u8::MAX,
+  };
 }
 
 impl Add for RGB {
