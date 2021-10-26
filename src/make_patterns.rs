@@ -2,6 +2,7 @@ use crate::color;
 use crate::pixel_buffer;
 use crate::vector2::*;
 use crate::yy_random_func;
+
 pub fn make_checker_pattern(
   buffer_output: &mut [color::RGB],
   width: usize,
@@ -175,9 +176,9 @@ pub fn make_one_of_each_pattern(
   );
 
   [
-    (checker_pattern, String::from("checker_pattern.ppm")),
-    (random_rainbow_pattern, String::from("random_pattern.ppm")),
-    (triangle_pattern, String::from("triangle_pattern.ppm")),
-    (circle_pattern, String::from("circle_pattern.ppm")),
+    (checker_pattern, String::from("checker_pattern")),
+    (random_rainbow_pattern, String::from("random_pattern")),
+    (triangle_pattern, String::from("triangle_pattern")),
+    (circle_pattern, String::from("circle_pattern")),
   ]
 }
