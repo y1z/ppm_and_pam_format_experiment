@@ -8,7 +8,7 @@ pub mod util {
   pub mod util_traits;
 }
 
-use pam_format_descriptor::{PamFormatDescriptor, TupleType};
+use pam_format_descriptor::PamFormatDescriptor;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::string::*;
@@ -30,7 +30,7 @@ fn main() {
     let buff_height = pat.0.get_height();
     let desc = PamFormatDescriptor::make_rgb_descriptor(buff_width, buff_height, None);
 
-    let file_name = format!("filename{}.pam", index);
+    let file_name = format!("{}.pam", pat.1);
     let result = save_as_pam_rgb(pat.0.get_buffer_as_slice(), desc, file_name);
     index = index + 1;
     if result.is_err() {
@@ -61,11 +61,16 @@ pub fn save_as_ppm_rgb(
   path: String,
   be_silent: bool,
 ) -> std::io::Result<()> {
-  let mut file = File::create(&path)?;
+  let final_path = match path.ends_with(".ppm") {
+    true => path,
+    false => path + ".ppm",
+  };
+
+  let mut file = File::create(&final_path)?;
   write!(file, "P6 {} {} 255\n", width, height)?;
 
   if !be_silent {
-    println!("saving file to path {}", path);
+    println!("saving file to path {}", final_path);
   }
 
   let mut writer = BufWriter::new(file);
