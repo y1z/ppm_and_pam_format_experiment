@@ -110,6 +110,22 @@ impl RGB {
   };
 }
 
+impl RGBA {
+  pub fn create(red_: u8, green_: u8, blue_: u8, alpha_: u8) -> RGBA {
+    RGBA {
+      rgb: RGB::create(red_, green_, blue_),
+      alpha: alpha_,
+    }
+  }
+
+  pub fn new() -> RGBA {
+    RGBA {
+      rgb: RGB::new(),
+      alpha: u8::MAX,
+    }
+  }
+}
+
 impl Add for RGB {
   type Output = RGB;
   fn add(self, other: Self) -> Self::Output {
@@ -132,22 +148,6 @@ impl Sub for RGB {
   }
 }
 
-impl RGBA {
-  pub fn create(red_: u8, green_: u8, blue_: u8, alpha_: u8) -> RGBA {
-    RGBA {
-      rgb: RGB::create(red_, green_, blue_),
-      alpha: alpha_,
-    }
-  }
-
-  pub fn new() -> RGBA {
-    RGBA {
-      rgb: RGB::new(),
-      alpha: u8::MAX,
-    }
-  }
-}
-
 impl Add for RGBA {
   type Output = RGBA;
   fn add(self, other: Self) -> Self::Output {
@@ -164,6 +164,15 @@ impl Sub for RGBA {
     RGBA {
       rgb: self.rgb.sub(other.rgb),
       alpha: self.alpha - other.alpha,
+    }
+  }
+}
+
+impl From<RGB> for RGBA {
+  fn from(color: RGB) -> RGBA {
+    RGBA {
+      rgb: color,
+      alpha: u8::MAX,
     }
   }
 }
