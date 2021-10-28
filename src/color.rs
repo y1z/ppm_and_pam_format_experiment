@@ -1,4 +1,6 @@
 use std::ops::{Add, Sub};
+
+/// represents 8-bit red green blue color space
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd)]
 pub struct RGB {
   pub red: u8,
@@ -6,13 +8,13 @@ pub struct RGB {
   pub blue: u8,
 }
 
+/// represents 8-bit red green blue color space with alpha
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd)]
 pub struct RGBA {
   pub rgb: RGB,
   pub alpha: u8,
 }
 
-///
 impl RGB {
   pub fn create_copy(color: &RGB) -> RGB {
     RGB::create(color.red, color.green, color.blue)
@@ -175,7 +177,6 @@ impl RGBA {
     alpha: u8::MAX,
   };
 
-  // purple #8024AB
   pub const PURPLE: RGBA = RGBA {
     rgb: RGB::PURPLE,
     alpha: u8::MAX,
@@ -239,6 +240,16 @@ impl From<RGB> for RGBA {
     RGBA {
       rgb: color,
       alpha: u8::MAX,
+    }
+  }
+}
+
+impl From<RGBA> for RGB {
+  fn from(color: RGBA) -> RGB {
+    RGB {
+      red: color.rgb.red,
+      blue: color.rgb.blue,
+      green: color.rgb.green,
     }
   }
 }
