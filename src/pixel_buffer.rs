@@ -1,4 +1,4 @@
-use crate::color::RGB;
+use crate::color::{RGB, RGBA};
 use std::option::Option;
 pub struct PixelBuffer<T> {
   buffer: Vec<T>,
@@ -43,6 +43,16 @@ where
       width: width_,
       height: height_,
       current_row_amount: 0,
+      _ratio: [0u32, 0u32],
+    }
+  }
+
+  pub fn from(buffer: Vec<T>, width: usize, height: usize) -> PixelBuffer<T> {
+    PixelBuffer {
+      buffer: buffer,
+      width: width,
+      height: height,
+      current_row_amount: width,
       _ratio: [0u32, 0u32],
     }
   }
@@ -99,3 +109,5 @@ where
 }
 
 pub type PixelBufferRGB = PixelBuffer<RGB>;
+
+pub type PixelBufferRGBA = PixelBuffer<RGBA>;
