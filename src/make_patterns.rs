@@ -22,6 +22,36 @@ pub fn make_checker_pattern(
   }
 }
 
+pub fn make_checker_pattern_rgba(
+  width: usize,
+  height: usize,
+  forground_color: color::RGBA,
+  background_color: color::RGBA,
+) -> pixel_buffer::PixelBufferRGBA {
+  let mut result = Vec::<color::RGBA>::with_capacity(width * height);
+  for y in 0..height {
+    let indice_to_draw_at = (y % 2 == 0) as usize;
+    for x in 0..width {
+      if x % 2 == indice_to_draw_at {
+        result.push(forground_color);
+      } else {
+        result.push(background_color);
+      }
+    }
+  }
+
+  pixel_buffer::PixelBufferRGBA::from(result, width, height)
+}
+
+pub fn make_checker_pattern_rgb(
+  width: usize,
+  height: usize,
+  forground_color: color::RGBA,
+  background_color: color::RGBA,
+) -> pixel_buffer::PixelBufferRGB {
+  make_checker_pattern_rgba(width, height, forground_color, background_color).into()
+}
+
 pub fn make_random_rainbow_pattern(buffer_output: &mut [color::RGB], width: usize, height: usize) {
   const COLOR_BUFFER: [color::RGB; 8] = [
     color::RGB::BLUE,
