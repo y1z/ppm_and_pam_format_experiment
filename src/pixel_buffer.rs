@@ -111,3 +111,21 @@ where
 pub type PixelBufferRGB = PixelBuffer<RGB>;
 
 pub type PixelBufferRGBA = PixelBuffer<RGBA>;
+
+impl From<PixelBufferRGBA> for PixelBufferRGB {
+  fn from(pixel_buffer_rgba: PixelBufferRGBA) -> Self {
+    let mut rgb_buffer =
+      Vec::<RGB>::with_capacity(pixel_buffer_rgba.width * pixel_buffer_rgba.height);
+    for element in pixel_buffer_rgba.buffer {
+      rgb_buffer.push(element.into());
+    }
+
+    PixelBufferRGB {
+      buffer: rgb_buffer,
+      width: pixel_buffer_rgba.width,
+      height: pixel_buffer_rgba.height,
+      current_row_amount: pixel_buffer_rgba.width,
+      _ratio: pixel_buffer_rgba._ratio,
+    }
+  }
+}
