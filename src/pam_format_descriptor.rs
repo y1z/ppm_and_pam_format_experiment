@@ -2,10 +2,13 @@ use std::fmt;
 #[repr(u32)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TupleType {
-  BLACKANDWHITE,
-  GRAYSCALE,
-  RGB,
+  BLACKANDWHITE = 1,
+  GRAYSCALE = 2,
+  RGB = 4,
   ALPHA = (1 << 16),
+  BLACKANDWHITE_ALPHA = TupleType::BLACKANDWHITE as u32 | TupleType::ALPHA as u32,
+  GRAYSCALE_ALPHA = TupleType::GRAYSCALE as u32 | TupleType::ALPHA as u32,
+  RGB_ALPHA = TupleType::RGB as u32 | TupleType::ALPHA as u32,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -27,10 +30,6 @@ impl TupleType {
 impl fmt::Display for TupleType {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let raw_value: u32 = (*self) as u32;
-    let has_alpha: bool = raw_value & (1 << 16) > 0;
-    if has_alpha {
-      write!(f, "{:?}_ALPHA", self);
-    }
     write!(f, "{:?}", self)
   }
 }
@@ -51,6 +50,24 @@ impl PamFormatDescriptor {
       height: height_,
       tuple_type: TupleType::RGB,
       depth: 3,
+      max_val: final_max_val,
+    }
+  }
+
+  pub const fn make_rgba_descriptor(
+    width_: usize,
+    height_: usize,
+    max_val_: Option<u16>,
+  ) -> PamFormatDescriptor {
+    let final_max_val = match max_val_ {
+      Some(x) => x,
+      None => u8::MAX as u16,
+    };
+    PamFormatDescriptor {
+      width: width_,
+      height: height_,
+      tuple_type: TupleType::RGB_ALPHA,
+      depth: 4,
       max_val: final_max_val,
     }
   }
