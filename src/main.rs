@@ -9,6 +9,7 @@ pub mod util {
   pub mod util_traits;
 }
 
+use crate::pam_format_descriptor::{PamFormatDescriptor, TupleType};
 use crate::write_ppm_pam_files::*;
 use std::string::*;
 
@@ -50,7 +51,21 @@ fn main() {
       panic!("\n\n\n\n error : [ {} ]", x);
     }
   }
-  {}
+  {
+    println!("");
+    let res = save_as_pam_rgba(
+      checker_pattern_pam.get_buffer_as_slice(),
+      PamFormatDescriptor::make_rgba_descriptor(
+        checker_pattern_pam.get_width(),
+        checker_pattern_pam.get_height(),
+        None,
+      ),
+      String::from("transparent_checker_pattern_test"),
+    );
+    if let Err(x) = res {
+      panic!("\n\n\n\n error : [ {} ]", x);
+    }
+  }
 
   // let mut index = 0;
   // for pat in patterns.iter() {

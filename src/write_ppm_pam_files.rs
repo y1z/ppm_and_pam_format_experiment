@@ -108,6 +108,10 @@ pub fn write_pam_rgb(
   Ok(())
 }
 
+fn check_for_pam_extention(name_of_file: &String) -> bool {
+  name_of_file.ends_with(".pam")
+}
+
 /**
   P7
   WIDTH 227
@@ -127,7 +131,13 @@ pub fn save_as_pam_rgb(
     "saving file of type {}\nName of file is \"{}\"\n",
     type_string, name_of_file
   );
-  let mut file = File::create(&name_of_file)?;
+
+  let final_name_of_file = match check_for_pam_extention(&name_of_file) {
+    true => name_of_file,
+    false => name_of_file + ".pam",
+  };
+
+  let mut file = File::create(&final_name_of_file)?;
   write_pam_header(&descriptor, &mut file)?;
   write_pam_rgb(&descriptor, &mut file, &color_buffer)?;
   Ok(())
@@ -143,7 +153,14 @@ pub fn save_as_pam_rgba(
     "saving file of type {}\nName of file is \"{}\"\n",
     type_string, name_of_file
   );
-  let mut file = File::create(&name_of_file)?;
+
+  let final_name_of_file = match check_for_pam_extention(&name_of_file) {
+    true => name_of_file,
+    false => name_of_file + ".pam",
+  };
+
+  let mut file = File::create(&final_name_of_file)?;
+
   write_pam_header(&descriptor, &mut file)?;
   write_pam_rgba(&descriptor, &mut file, &color_buffer);
 
